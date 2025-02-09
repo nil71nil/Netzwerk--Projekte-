@@ -1,0 +1,22 @@
+import socket
+
+# Dieses Skript überprüft, ob bestimmte Ports auf einer Ziel-IP offen oder geschlossen sind.
+# Ziel-IP eingeben
+target_ip = input("Geben Sie die Ziel-IP ein: ")
+
+# Liste der zu überprüfenden Ports
+ports = [22, 23, 53, 80, 443, 3306, 8080]
+
+def scan_port(ip, port):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(1)  # Timeout für die Verbindung (1 Sekunde)
+    result = s.connect_ex((ip, port))
+    s.close()
+    return result == 0  # Wenn 0 zurückgegeben wird, ist der Port offen
+
+print(f" Scanne {target_ip}...\n")
+for port in ports:
+    if scan_port(target_ip, port):
+        print(f" Port {port} ist OFFEN")
+    else:
+        print(f" Port {port} ist GESCHLOSSEN")")
